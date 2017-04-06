@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
 
 APP = Flask(__name__)
 API = Api(APP)
@@ -20,9 +20,22 @@ class OrderList(Resource):
         }
 
     def post(self):
+        # set up input validation
+        parser = reqparse.RequestParser()
+        parser.add_argument('uuid',
+                            type=str,
+                            required=True)
+        parser.add_argument('products',
+                            type=list,
+                            required=True,
+                            location='json') # type='list' -> location='json'
+
+        # read the request body with reqparse
+        data = parser.parse_args()
+
         # parse the request body to json
         # silent=True => return None if invalid
-        data = request.get_json(silent=True)
+        # data = request.get_json(silent=True)
 
         # check whether the body was valid json
         if data is not None:
@@ -36,12 +49,11 @@ class OrderList(Resource):
                 'data': data
             }, 201
 
-        else:
-            # return "bad request"
-            return {
-                'success': False,
-                'message': 'INVALID_BODY'
-            }, 400
+        # return "bad request"
+        return {
+            'success': False,
+            'message': 'INVALID_BODY'
+        }, 400
 
 
 class Order(Resource):
@@ -51,14 +63,17 @@ class Order(Resource):
         # TODO: get the order from the database
         # TODO: verify that the UUID matches the order
 
-        for item in items:
-            if item['id'] == id:
-                return {
-                    'success': True,
-                    'data': {
-                        'id': id
-                    }
+        # use next to get the first item returned by the filter
+        # specify None as a default value for the next function
+        item = next(filter(lambda x: x['id'] == id, items), None)
+
+        if item is not None:
+            return {
+                'success': True,
+                'data': {
+                    'id': id
                 }
+            }
 
         # if the id doesn't exist, return 404
         return {
