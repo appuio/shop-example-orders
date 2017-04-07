@@ -1,4 +1,5 @@
 import os as os
+
 from flask import Flask, jsonify, request
 
 # create the application instance
@@ -12,6 +13,7 @@ APP.config.update(
     DB_DATABASE=os.environ['DB_DATABASE']
 )
 
+
 @APP.route('/api/v1/orders', methods=['GET'])
 def get_orders():
     # TODO: validate the JWT
@@ -21,10 +23,11 @@ def get_orders():
     # return appropriate response
     return jsonify({
         'success': True,
-        'items': [
+        'items'  : [
             {'id': 1}
         ]
     })
+
 
 # place a new order using POST
 @APP.route('/api/v1/orders', methods=['POST'])
@@ -39,10 +42,11 @@ def place_order():
     # return appropriate response
     return jsonify({
         'success': True,
-        'data': {
+        'data'   : {
             'id': 1
         }
     })
+
 
 # get order details using GET
 @APP.route('/api/v1/orders/<int:order_id>')
@@ -55,7 +59,7 @@ def get_order(order_id):
     # return appropriate response
     return jsonify({
         'success': True,
-        'data': {
+        'data'   : {
             'id': order_id
         }
     })
