@@ -4,8 +4,10 @@ from db import db
 
 
 class OrderModel(db.Model):
+    # define the database table sqlalchemy should use
     __tablename__ = 'orders'
 
+    # define the structure of the database table
     id = db.Column(db.Integer, primary_key=True)
     user_uuid = db.Column(postgresql.UUID)
     products = db.Column(postgresql.ARRAY(db.Integer, dimensions=1))
