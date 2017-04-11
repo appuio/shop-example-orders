@@ -17,14 +17,22 @@ pipeline {
         }
         echo 'Running tests...'
         sh 'pwd'
+        sh 'ping orders-test'
         sh 'python3.6 --version'
-        // sh 'pip3.6 install -r requirements.txt'
-        echo 'Removing database...'
-        script {
-          openshiftScale(deploymentConfig: 'orders-test', replicaCount: 0)
-          /*openshift.withCluster() {
-            openshift.raw('scale', 'dc', 'orders-test', '--replicas=0')
-          }*/
+        // install the application requirements
+        sh 'pip3.6 install -r requirements.txt'
+        // run the application tests
+        sh 'python app_test.py'
+      }
+      post {
+        always {
+          echo 'Removing database...'
+          script {
+            openshiftScale(deploymentConfig: 'orders-test', replicaCount: 0)
+            /*openshift.withCluster() {
+              openshift.raw('scale', 'dc', 'orders-test', '--replicas=0')
+            }*/
+          }
         }
       }
     }
