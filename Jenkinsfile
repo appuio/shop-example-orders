@@ -23,7 +23,7 @@ pipeline {
         echo 'Running tests...'
         sh 'env'
         sh 'pwd'
-        sh 'ping orders-test'
+        // sh 'ping orders-test'
         sh 'ls -la /usr/local/bin'
         sh 'python3.6 --version'
         // install the application requirements
