@@ -11,7 +11,7 @@ pipeline {
       steps {
         echo 'Running tests...'
         sh 'pwd'
-        sh 'pip3.6 install --user -r requirements.txt'
+        // sh 'pip3.6 install --user -r requirements.txt'
       }
     }
 
