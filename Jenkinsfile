@@ -54,7 +54,7 @@ pipeline {
 
       when {
         // TODO: don't do this on a new release / git tag
-        branch: 'master'
+        branch 'master'
       }
     }
 
@@ -72,7 +72,7 @@ pipeline {
       steps {
         echo 'Promoting to prod...'
       }
-      
+
       // when {
         // TODO: only do this on manual intervention
       // }
