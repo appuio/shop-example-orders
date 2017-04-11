@@ -9,7 +9,7 @@ pipeline {
     stage('test') {
       steps {
         echo 'Provisioning database...'
-        openshiftScale(deploymentConfig: 'orders-test', replicaCount: '1')
+        openshiftScale(depCfg: 'orders-test', replicaCount: '1')
           /*openshift.withCluster() {
             openshift.raw('scale', 'dc', 'orders-test', '--replicas=1')
           }*/
@@ -26,7 +26,7 @@ pipeline {
       post {
         always {
           echo 'Removing database...'
-          openshiftScale(deploymentConfig: 'orders-test', replicaCount: '0')
+          openshiftScale(depCfg: 'orders-test', replicaCount: '0')
             /*openshift.withCluster() {
               openshift.raw('scale', 'dc', 'orders-test', '--replicas=0')
             }*/
