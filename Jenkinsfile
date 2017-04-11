@@ -29,7 +29,7 @@ pipeline {
         sh 'ls -la /usr/local/bin'
         sh 'python3.6 --version'
         // install the application requirements
-        sh 'pip3.6 install -r requirements.txt'
+        sh 'pip3.6 install --user -r requirements.txt'
         // run the application tests
         sh 'python app_test.py'
       }
