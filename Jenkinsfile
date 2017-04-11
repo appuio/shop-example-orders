@@ -23,10 +23,10 @@ pipeline {
             openshift.raw('scale', 'dc', 'orders-test', '--replicas=1')
           }*/
         echo 'Running tests...'
-        sh 'env'
-        sh 'pwd'
+        // sh 'env'
+        // sh 'pwd'
         // sh 'ping orders-test'
-        sh 'ls -la /usr/local/bin'
+        // sh 'ls -la /usr/local/bin'
         sh 'python3.6 --version'
         // install the application requirements
         sh 'pip3.6 install --user -r requirements.txt'
@@ -50,8 +50,8 @@ pipeline {
 
       steps {
         echo 'Running S2I build...'
-        sh 'pwd'
-        sh 'python3.6 --version'
+        // sh 'pwd'
+        // sh 'python3.6 --version'
         // start a new openshift build
         // openshiftBuild('orders-staging')
       }
