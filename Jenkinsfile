@@ -1,12 +1,14 @@
 pipeline {
-  agent {
-    // run with the custom python slave
-    // will dynamically provision a new pod on APPUiO
-    label 'python'
-  }
+  agent none
   
   stages {
     stage('test') {
+      agent {
+        // run with the custom python slave
+        // will dynamically provision a new pod on APPUiO
+        label 'python'
+      }
+
       environment {
         DB_HOSTNAME = 'orders-test'
         DB_USERNAME = 'orders'
@@ -44,6 +46,8 @@ pipeline {
     }
 
     stage('build') {
+      agent any
+
       steps {
         echo 'Running S2I build...'
         sh 'pwd'
@@ -59,6 +63,8 @@ pipeline {
     }
 
     stage('deploy-preprod') {
+      agent any
+
       steps {
         echo 'Promoting to preprod...'
       }
@@ -69,6 +75,8 @@ pipeline {
     }
 
     stage('deploy-prod') {
+      agent any
+      
       steps {
         echo 'Promoting to prod...'
       }
