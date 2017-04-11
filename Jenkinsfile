@@ -11,8 +11,7 @@ pipeline {
       steps {
         echo 'Running tests...'
         sh 'pwd'
-        sh 'python3.6 --version'
-        sh 'python3.6 app_test.py'
+        sh 'pip3.6 install -r requirements.txt'
       }
     }
 
