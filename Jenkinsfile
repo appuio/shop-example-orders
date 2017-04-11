@@ -1,5 +1,5 @@
 pipeline {
-  agent none
+  agent any
   
   stages {
     stage('test') {
@@ -76,7 +76,7 @@ pipeline {
 
     stage('deploy-prod') {
       agent any
-      
+
       steps {
         echo 'Promoting to prod...'
       }
