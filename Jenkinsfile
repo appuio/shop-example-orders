@@ -9,7 +9,7 @@ pipeline {
     stage('test') {
       steps {
         echo 'Provisioning database...'
-        openshiftScale(deploymentConfig='orders-test', replicaCount=1, verifyReplicaCount=1)
+        openshiftScale(deploymentConfig='orders-test', replicaCount=1)
         echo 'Running tests...'
         sh 'pwd'
         sh 'python3.6 --version'
