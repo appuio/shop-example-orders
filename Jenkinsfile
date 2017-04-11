@@ -31,7 +31,7 @@ pipeline {
         // install the application requirements
         sh 'pip3.6 install --user -r requirements.txt'
         // run the application tests
-        sh 'python app_test.py'
+        sh 'python3.6 app_test.py'
       }
 
       post {
