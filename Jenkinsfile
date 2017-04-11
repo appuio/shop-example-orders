@@ -10,7 +10,9 @@ pipeline {
       steps {
         echo 'Provisioning database...'
         script {
-          openshiftScale(deploymentConfig='orders-test', replicaCount=1)
+          openshift.withCluster() {
+            openshift.raw('scale', 'dc', 'orders-test', '--replicas=1')
+          }
         }
         echo 'Running tests...'
         sh 'pwd'
@@ -18,7 +20,9 @@ pipeline {
         // sh 'pip3.6 install -r requirements.txt'
         echo 'Removing database...'
         script {
-          openshiftScale(deploymentConfig='orders-test', replicaCount=0)
+          openshift.withCluster() {
+            openshift.raw('scale', 'dc', 'orders-test', '--replicas=0')
+          }
         }
       }
     }
