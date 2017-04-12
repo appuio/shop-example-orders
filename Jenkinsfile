@@ -23,7 +23,7 @@ pipeline {
         openshiftScale(depCfg: 'orders-test', replicaCount: '1')
 
         // sleep for 20s to give the db chance to initialize
-        sleep 20
+        sleep 30
 
         echo 'Running tests...'
 
