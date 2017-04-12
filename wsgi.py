@@ -46,7 +46,7 @@ def prepare():
 
 
 # destroy the database connection
-@app.teardown_request
+@APP.teardown_request
 def teardown(exception):
     db.close()
 
