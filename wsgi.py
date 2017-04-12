@@ -28,12 +28,12 @@ API.add_resource(OrderList, '/api/v1/orders')
 API.add_resource(Order, '/api/v1/orders/<int:id_>')
 
 
-@APP.before_first_request
+# @APP.before_first_request
 def migrate():
     from db import db
 
     db.init_app(APP)
-    
+
     # initialize the database with the necessary tables
     db.create_all()
 
