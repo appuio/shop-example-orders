@@ -32,6 +32,8 @@ API.add_resource(Order, '/api/v1/orders/<int:id_>')
 def migrate():
     from db import db
 
+    db.init_app(APP)
+    
     # initialize the database with the necessary tables
     db.create_all()
 
