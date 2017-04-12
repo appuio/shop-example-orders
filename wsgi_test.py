@@ -1,7 +1,7 @@
 import unittest
 import json
 
-from wsgi import APP, migrate
+import wsgi
 
 API_URL = '/api/v1'
 
@@ -20,8 +20,8 @@ class TestAPI(unittest.TestCase):
                              content_type='application/json')
 
     def setUp(self):
-        migrate()
-        self.app = APP.test_client()
+        wsgi.migrate()
+        self.app = wsgi.APP.test_client()
 
     def test_get_orders(self):
         # check response for empty list of orders
