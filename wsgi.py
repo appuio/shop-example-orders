@@ -48,11 +48,11 @@ def prepare():
 
 
 # destroy the database connection
-@APP.teardown_request
-def teardown(exception):
-    from db import db
-    
-    db.close()
+# @APP.teardown_request
+# def teardown(exception):
+    # from db import db
+    # pass
+    # db.close()
 
 
 if __name__ == '__main__':
