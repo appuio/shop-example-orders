@@ -60,7 +60,7 @@ pipeline {
 
         echo 'Starting new deployment...'
 
-        // start a new openshift deployment
+        // trigger a new openshift deployment
         openshiftDeploy(depCfg: 'orders-staging')
       }
 
@@ -76,7 +76,8 @@ pipeline {
       steps {
         echo 'Promoting to preprod...'
 
-        // TODO: tag the latest image as stable
+        // tag the latest image as stable
+        openshiftTag(srcStream: 'orders', srcTag: 'latest', destStream: 'orders', destTag: 'stable')
 
         echo 'Replacing OC config...'
 
@@ -84,7 +85,8 @@ pipeline {
 
         echo 'Starting new deployment...'
 
-        // TODO: trigger a new openshift deployment
+        // trigger a new openshift deployment
+        openshiftDeploy(depCfg: 'orders-preprod')
       }
 
       when {
@@ -100,15 +102,17 @@ pipeline {
       steps {
         echo 'Promoting to prod...'
 
-        // TODO: tag the stable image as live
+        // tag the stable image as live
+        openshiftTag(srcStream: 'orders', srcTag: 'stable', destStream: 'orders', destTag: 'live')
 
         echo 'Replacing OC config...'
 
         // TODO: replace the openshift config
 
         echo 'Starting new deployment...'
-        
-        // TODO: trigger a new openshift deployment
+
+        // trigger a new openshift deployment
+        openshiftDeploy(depCfg: 'orders-prod')
       }
 
       when {
