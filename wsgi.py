@@ -50,6 +50,8 @@ def prepare():
 # destroy the database connection
 @APP.teardown_request
 def teardown(exception):
+    from db import db
+    
     db.close()
 
 
