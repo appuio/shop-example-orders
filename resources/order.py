@@ -10,9 +10,13 @@ from models.order import OrderModel
 def parse_jwt(authorization):
     # extract the JWT from the header
     token = authorization[7:]
+    
     # decode the JWT with the shared secret
-    # TODO: wrap in try/except
-    return jwt.decode(token, current_app.config['SECRET_KEY'])
+    # return None if the token was not valid
+    try:
+        return jwt.decode(token, current_app.config['SECRET_KEY'])
+    except Exception:
+        return None
 
 
 class OrderList(Resource):
@@ -23,12 +27,16 @@ class OrderList(Resource):
     def get(self, authorization):
         # parse the token
         token = parse_jwt(authorization)
+        if not token:
+            return {
+                'success': False,
+                'message': 'INVALID_TOKEN'
+            }, 401
 
         # return the list of all items
         return {
             'success': True,
-            'items': [order.to_json() for order in OrderModel.find_by_uuid(token['uuid'])],
-            'token': token
+            'items': [order.to_json() for order in OrderModel.find_by_uuid(token['uuid'])]
         }
 
     @use_kwargs({
@@ -40,6 +48,11 @@ class OrderList(Resource):
     def post(self, authorization, products):
         # parse the token
         token = parse_jwt(authorization)
+        if not token:
+            return {
+                'success': False,
+                'message': 'INVALID_TOKEN'
+            }, 401
 
         # construct a new order
         new_order = OrderModel(
@@ -70,6 +83,11 @@ class Order(Resource):
     def get(self, authorization, id_):
         # parse the token
         token = parse_jwt(authorization)
+        if not token:
+            return {
+                'success': False,
+                'message': 'INVALID_TOKEN'
+            }, 401
 
         # get the order from the database
         item = OrderModel.find_by_id(id_)
