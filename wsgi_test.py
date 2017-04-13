@@ -20,10 +20,9 @@ class TestAPI(unittest.TestCase):
                              content_type='application/json')
 
     def setUp(self):
-        wsgi.migrate()
         self.app = wsgi.APP.test_client()
 
-    def test_get_orders(self):
+    def test1_get_orders(self):
         # check response for empty list of orders
         response = self.get_json('/orders')
         self.assertEqual(response.status_code, 200)
@@ -50,7 +49,7 @@ class TestAPI(unittest.TestCase):
             ]
         })
 
-    def test_get_order(self):
+    def test2_get_order(self):
         # TODO: (JWT) check response to unauthorized access
 
         # check response for nonexistent order
@@ -62,7 +61,7 @@ class TestAPI(unittest.TestCase):
         })
 
         # check response for existent order
-        repsonse = self.get_json('/orders/1')
+        response = self.get_json('/orders/1')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(extract_json(response), {
             'success': True,
@@ -74,7 +73,7 @@ class TestAPI(unittest.TestCase):
             }
         })
 
-    def test_post_order(self):
+    def test3_post_order(self):
         # TODO: (JWT) check response for unauthorized post
 
         # check response for empty body

@@ -27,32 +27,15 @@ API = Api(APP)
 API.add_resource(OrderList, '/api/v1/orders')
 API.add_resource(Order, '/api/v1/orders/<int:id_>')
 
-
-# @APP.before_first_request
+# initialize the database before the first request is served
+@APP.before_first_request
 def migrate():
     from db import db
 
     db.init_app(APP)
 
-    # initialize the database with the necessary tables
+    # setup the necessary tables (very simple "migration")
     db.create_all()
-
-
-# prepare the application for testing / running
-@APP.before_request
-def prepare():
-    from db import db
-
-    # initialize the database connection
-    db.init_app(APP)
-
-
-# destroy the database connection
-# @APP.teardown_request
-# def teardown(exception):
-    # from db import db
-    # pass
-    # db.close()
 
 
 if __name__ == '__main__':
