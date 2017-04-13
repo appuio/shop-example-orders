@@ -12,12 +12,13 @@ def extract_json(response):
 
 class TestAPI(unittest.TestCase):
     def get_json(self, endpoint):
-        return self.app.get(API_URL + str(endpoint))
+        return self.app.get(API_URL + str(endpoint), headers={'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsInV1aWQiOiI3N2JkN2M2My00YzIxLTRlYTktYmI2YS0yNTNlZDlhMjNlNTMifQ.zOBvRspbD2s-8aQVI0FtTG0mvR8W81NT0-ZdaMLLYvQ'})
 
     def post_json(self, endpoint, data):
         return self.app.post(API_URL + str(endpoint),
                              data=json.dumps(data),
-                             content_type='application/json')
+                             content_type='application/json',
+                             headers={'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsInV1aWQiOiI3N2JkN2M2My00YzIxLTRlYTktYmI2YS0yNTNlZDlhMjNlNTMifQ.zOBvRspbD2s-8aQVI0FtTG0mvR8W81NT0-ZdaMLLYvQ'})
 
     def setUp(self):
         self.app = wsgi.APP.test_client()

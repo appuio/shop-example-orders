@@ -23,15 +23,17 @@ pipeline {
         openshiftScale(depCfg: 'orders-test', replicaCount: '1')
 
         // sleep for 20s to give the db chance to initialize
-        sleep 30
+        sleep 20
 
-        echo 'Running tests...'
+        echo 'Installing dependencies...'
 
         // install the application requirements
         sh 'pip3.6 install --user -r requirements.txt'
 
-        // run the application tests
-        sh 'python3.6 wsgi_test.py'
+        echo 'Running tests...'
+
+        // run the application tests with verbose output
+        sh 'python3.6 -m unittest wsgi_test --verbose'
       }
 
       post {

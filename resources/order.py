@@ -1,34 +1,49 @@
+from flask import current_app
 from flask_restful import Resource, reqparse
 from webargs import fields, validate
 from webargs.flaskparser import use_kwargs, parser, abort
+import jwt
 
 from models.order import OrderModel
 
 
+def parse_jwt(authorization):
+    # extract the JWT from the header
+    token = authorization[7:]
+    # decode the JWT with the shared secret
+    # TODO: wrap in try/except
+    return jwt.decode(token, current_app.config['SECRET_KEY'])
+
+
 class OrderList(Resource):
-    def get(self):
-        # TODO: validate the JWT
-        # TODO: get the UUID from the JWT
-        uuid = '77bd7c63-4c21-4ea9-bb6a-253ed9a23e53'
+    @use_kwargs({
+        # get the auth header
+        'authorization': fields.String(required=True, location='headers')
+    })
+    def get(self, authorization):
+        # parse the token
+        token = parse_jwt(authorization)
 
         # return the list of all items
         return {
             'success': True,
-            'items': [order.to_json() for order in OrderModel.find_by_uuid(uuid)]
+            'items': [order.to_json() for order in OrderModel.find_by_uuid(token['uuid'])],
+            'token': token
         }
 
     @use_kwargs({
+        # get the auth header
+        'authorization': fields.String(required=True, location='headers'),
         # validate the array of products in the request
         'products': fields.List(fields.Int(), required=True, validate=lambda list: len(list) > 0)
     })
-    def post(self, products):
-        # TODO: validate the JWT
-        # TODO: get the UUID from the JWT
-        uuid = '77bd7c63-4c21-4ea9-bb6a-253ed9a23e53'
+    def post(self, authorization, products):
+        # parse the token
+        token = parse_jwt(authorization)
 
         # construct a new order
         new_order = OrderModel(
-            uuid,
+            token['uuid'],
             products,
             '2017-10-10 20:00:00',
             False
@@ -48,15 +63,18 @@ class OrderList(Resource):
 
 
 class Order(Resource):
-    def get(self, id_):
-        # TODO: validate the JWT
-        # TODO: get the UUID from the JWT
-        uuid = '77bd7c63-4c21-4ea9-bb6a-253ed9a23e53'
+    @use_kwargs({
+        # get the auth header
+        'authorization': fields.String(required=True, location='headers')
+    })
+    def get(self, authorization, id_):
+        # parse the token
+        token = parse_jwt(authorization)
 
         # get the order from the database
         item = OrderModel.find_by_id(id_)
 
-        if item and item.user_uuid == uuid:
+        if item and item.user_uuid == token['uuid']:
             return {
                 'success': True,
                 'data': item.to_json()

@@ -18,7 +18,7 @@ DB_SETTINGS = {
 
 # initialize the APP
 APP = Flask(__name__)
-APP.secret_key = os.environ.get('SECRET_KEY', 'abcd')
+APP.secret_key = os.environ.get('SECRET_KEY', 'secret')
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 APP.config['SQLALCHEMY_DATABASE_URI'] = URL(**DB_SETTINGS)
 
