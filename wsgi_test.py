@@ -47,7 +47,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.extract_json(response), {
             'success': True,
-            'items': []
+            'data': []
         })
 
         # check response for non-empty list of orders
@@ -58,11 +58,11 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.extract_json(response), {
             'success': True,
-            'items': [
+            'data': [
                 {
                     'fulfilled': False,
                     'id': 1,
-                    'order_date': '06.12.1993',
+                    'order_date': '01.01.1970',
                     'products': [1, 2, 3]
                 }
             ]
@@ -79,7 +79,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
         self.assertEqual(self.extract_json(response), {
             'success': False,
-            'message': 'NotFound'
+            'messages': ['NOT_FOUND']
         })
 
         # check response for existent order
@@ -90,7 +90,7 @@ class TestAPI(unittest.TestCase):
             'data': {
                 'fulfilled': False,
                 'id': 1,
-                'order_date': '06.12.1993',
+                'order_date': '01.01.1970',
                 'products': [1, 2, 3]
             }
         })

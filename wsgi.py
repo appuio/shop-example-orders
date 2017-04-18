@@ -9,7 +9,7 @@ from resources.order import Order, OrderList
 # read database settings from the environment
 DB_SETTINGS = {
     'drivername': 'postgresql',
-    'host': os.environ.get('DB_HOSTNAME', '172.28.128.3'),
+    'host': os.environ.get('DB_HOSTNAME', 'orders-db'),
     'port': 5432,
     'username': os.environ.get('DB_USERNAME', 'orders'),
     'password': os.environ.get('DB_PASSWORD', 'secret'),

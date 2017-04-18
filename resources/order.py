@@ -30,7 +30,7 @@ class OrderList(Resource):
         if not token:
             return {
                 'success': False,
-                'errors': ['INVALID_TOKEN']
+                'messages': ['INVALID_TOKEN']
             }, 401
 
         # return the list of all items
@@ -51,7 +51,7 @@ class OrderList(Resource):
         if not token:
             return {
                 'success': False,
-                'errors': ['INVALID_TOKEN']
+                'messages': ['INVALID_TOKEN']
             }, 401
 
         # construct a new order
@@ -86,7 +86,7 @@ class Order(Resource):
         if not token:
             return {
                 'success': False,
-                'errors': ['INVALID_TOKEN']
+                'messages': ['INVALID_TOKEN']
             }, 401
 
         # get the order from the database
@@ -102,5 +102,5 @@ class Order(Resource):
         # if the user is not permitted to access this order, return 404
         return {
             'success': False,
-            'errors': ['NOT_FOUND']
+            'messages': ['NOT_FOUND']
         }, 404
