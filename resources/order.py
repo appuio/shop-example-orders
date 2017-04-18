@@ -30,13 +30,13 @@ class OrderList(Resource):
         if not token:
             return {
                 'success': False,
-                'message': 'INVALID_TOKEN'
+                'errors': ['INVALID_TOKEN']
             }, 401
 
         # return the list of all items
         return {
             'success': True,
-            'items': [order.to_json() for order in OrderModel.find_by_uuid(token['uuid'])]
+            'data': [order.to_json() for order in OrderModel.find_by_uuid(token['uuid'])]
         }
 
     @use_kwargs({
@@ -51,7 +51,7 @@ class OrderList(Resource):
         if not token:
             return {
                 'success': False,
-                'message': 'INVALID_TOKEN'
+                'errors': ['INVALID_TOKEN']
             }, 401
 
         # construct a new order
@@ -86,7 +86,7 @@ class Order(Resource):
         if not token:
             return {
                 'success': False,
-                'message': 'INVALID_TOKEN'
+                'errors': ['INVALID_TOKEN']
             }, 401
 
         # get the order from the database
@@ -102,5 +102,5 @@ class Order(Resource):
         # if the user is not permitted to access this order, return 404
         return {
             'success': False,
-            'message': 'NotFound'
+            'errors': ['NOT_FOUND']
         }, 404

@@ -36,6 +36,6 @@ class OrderModel(db.Model):
         return {
             'id'        : self.id,
             'products'  : self.products,
-            'order_date': '06.12.1993',  # TODO: return a serialized date
+            'order_date': '01.01.1970',  # TODO: return a serialized date
             'fulfilled' : self.fulfilled
         }

@@ -3,15 +3,15 @@ services:
   orders:
     image: shop-example-orders
     environment:
-      DB_HOSTNAME: orders
+      DB_HOSTNAME: orders-db
       DB_USERNAME: orders
       DB_PASSWORD: secret
       DB_DATABASE: orders
+    ports:
+      - "8080:8080"
 
   orders-db:
     image: postgres:9.5-alpine
     environment:
       POSTGRES_USER: orders
       POSTGRES_PASSWORD: secret
-    ports:
-      - "5432:5432"
