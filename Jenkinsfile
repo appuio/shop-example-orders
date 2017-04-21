@@ -28,7 +28,9 @@ pipeline {
         echo 'Installing dependencies...'
 
         // install the application requirements
-        sh 'pip3.6 install --user -r requirements.txt --download-cache=.pip'
+        wrap([$class: 'CacheWrapper', 'path': '.pip']) {
+          sh 'pip3.6 install --user -r requirements.txt --download-cache=.pip'
+        }
 
         echo 'Running tests...'
 
