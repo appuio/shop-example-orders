@@ -63,7 +63,9 @@ pipeline {
 
         // replace the openshift config
         script {
-          openshift.replace('do something')
+          openshift.withCluster() {
+            openshift.replace('docker/openshift/deployment.yaml')
+          }
         }
 
         echo 'Starting new deployment...'
