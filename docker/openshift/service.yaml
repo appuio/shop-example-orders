@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-staging
+  namespace: vshn-demoapp1
+  labels:
+    app: orders-staging
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+    service.alpha.openshift.io/dependencies: '[{"name":"orders-staging-db","namespace":"","kind":"Service"}]'
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    deploymentconfig: orders-staging
+  clusterIP: <CLUSTER_IP>
+  type: ClusterIP
+  sessionAffinity: None
+status:

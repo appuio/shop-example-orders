@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: orders-staging
+  namespace: vshn-demoapp1
+  labels:
+    app: orders-staging
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources: {}
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        containerNames:
+          - orders-staging
+        from:
+          kind: ImageStreamTag
+          namespace: vshn-demoapp1
+          name: 'orders-staging:latest'
+  replicas: 1
+  test: false
+  selector:
+    app: orders-staging
+    deploymentconfig: orders-staging
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: orders-staging
+        deploymentconfig: orders-staging
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+    spec:
+      containers:
+        - name: orders-staging
+          image: >-
+            172.30.1.1:5000/vshn-demoapp1/orders-staging:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secret-key
+                  key: secret-key
+            - name: DB_HOSTNAME
+              value: orders-staging-db
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: orders-db
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: orders-db
+                  key: password
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: orders-db
+                  key: database
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+status:
