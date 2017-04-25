@@ -64,7 +64,7 @@ pipeline {
         // replace the openshift config
         script {
           openshift.withCluster() {
-            openshift.replace('-f', 'docker/openshift/deployment.yaml')
+            openshift.replace('-f', 'docker/openshift/*')
           }
         }
 
