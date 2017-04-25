@@ -19,7 +19,9 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
-            openshift.raw('describe', 'dc/api-staging')
+            openshift.doAs('jenkins-oc-client') {
+              openshift.raw('describe', 'dc/api-staging')
+            }
           }
         }
         
