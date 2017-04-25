@@ -17,18 +17,6 @@ pipeline {
       }
 
       steps {
-        sh 'sed -i "s;CLUSTER_IP;172.30.57.24;g" docker/openshift/service.yaml'
-        script {
-          openshift.verbose()
-          openshift.withCluster() {
-            openshift.doAs('jenkins-oc-client') {
-              openshift.raw('replace', '-f', 'docker/openshift/deployment.yaml')
-              openshift.raw('replace', '-f', 'docker/openshift/service.yaml')
-            }
-          }
-          openshift.verbose(false)
-        }
-
         echo 'Provisioning database...'
 
         // scale the ephemeral orders-test database to 1 replica
@@ -74,17 +62,22 @@ pipeline {
         echo 'Replacing OC config...'
 
         // replace the openshift config
-        // sh 'sed -i "s;CLUSTER_IP;172.30.57.24;g" docker/openshift/service.yaml'
+        sh 'sed -i "s;CLUSTER_IP;172.30.57.24;g" docker/openshift/service.yaml'
 
-        /*script {
+        script {
+          // openshift.verbose()
           openshift.withCluster() {
-            openshift.verbose()
-            // openshift.replace('docker/openshift/*')
-            //openshift.describe('dc', 'api-staging')
-            //openshift.raw('replace', '-f', 'docker/openshift/*')
-            openshift.verbose(false)
+
+            // tell jenkins that it has to use the added global token to execute under the jenkins serviceaccount
+            // running without this will cause jenkins to try with the "default" serviceaccount (which fails)
+            openshift.doAs('jenkins-oc-client') {
+              openshift.raw('replace', '-f', 'docker/openshift/deployment.yaml')
+              openshift.raw('replace', '-f', 'docker/openshift/service.yaml')
+            }
           }
-        }*/
+
+          // openshift.verbose(false)
+        }
 
         echo 'Starting new deployment...'
 
@@ -109,7 +102,24 @@ pipeline {
 
         echo 'Replacing OC config...'
 
-        // TODO: replace the openshift config
+        // replace the openshift config
+        // TODO: insert real IP of the preprod env
+        sh 'sed -i "s;CLUSTER_IP;172.30.57.24;g" docker/openshift/service.yaml'
+
+        script {
+          // openshift.verbose()
+          openshift.withCluster() {
+
+            // tell jenkins that it has to use the added global token to execute under the jenkins serviceaccount
+            // running without this will cause jenkins to try with the "default" serviceaccount (which fails)
+            openshift.doAs('jenkins-oc-client') {
+              openshift.raw('replace', '-f', 'docker/openshift/deployment.yaml')
+              openshift.raw('replace', '-f', 'docker/openshift/service.yaml')
+            }
+          }
+
+          // openshift.verbose(false)
+        }
 
         echo 'Starting new deployment...'
 
@@ -135,7 +145,24 @@ pipeline {
 
         echo 'Replacing OC config...'
 
-        // TODO: replace the openshift config
+        // replace the openshift config
+        // TODO: insert real IP of the prod env
+        sh 'sed -i "s;CLUSTER_IP;172.30.57.24;g" docker/openshift/service.yaml'
+
+        script {
+          // openshift.verbose()
+          openshift.withCluster() {
+
+            // tell jenkins that it has to use the added global token to execute under the jenkins serviceaccount
+            // running without this will cause jenkins to try with the "default" serviceaccount (which fails)
+            openshift.doAs('jenkins-oc-client') {
+              openshift.raw('replace', '-f', 'docker/openshift/deployment.yaml')
+              openshift.raw('replace', '-f', 'docker/openshift/service.yaml')
+            }
+          }
+
+          // openshift.verbose(false)
+        }
 
         echo 'Starting new deployment...'
 
