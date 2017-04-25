@@ -62,6 +62,8 @@ pipeline {
         echo 'Replacing OC config...'
 
         // replace the openshift config
+        sh 'sed -i "s;CLUSTER_IP;172.30.57.24;g" docker/openshift/service.yaml'
+
         script {
           openshift.withCluster() {
             openshift.verbose()

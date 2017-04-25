@@ -16,7 +16,7 @@ spec:
       targetPort: 8080
   selector:
     deploymentconfig: orders-staging
-  clusterIP: <CLUSTER_IP>
+  clusterIP: CLUSTER_IP
   type: ClusterIP
   sessionAffinity: None
 status:
