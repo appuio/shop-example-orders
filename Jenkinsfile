@@ -17,12 +17,13 @@ pipeline {
       }
 
       steps {
+        sh 'sed -i "s;CLUSTER_IP;172.30.57.24;g" docker/openshift/service.yaml'
         script {
           openshift.verbose()
           openshift.withCluster() {
             openshift.doAs('jenkins-oc-client') {
-              openshift.replace('docker/openshift/deployment.yaml')
               openshift.raw('replace', '-f', 'docker/openshift/deployment.yaml')
+              openshift.raw('replace', '-f', 'docker/openshift/service.yaml')
             }
           }
           openshift.verbose(false)
