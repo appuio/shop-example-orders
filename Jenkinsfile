@@ -18,12 +18,14 @@ pipeline {
 
       steps {
         script {
+          openshift.verbose()
           openshift.withCluster() {
             openshift.doAs('jenkins-oc-client') {
               openshift.replace('docker/openshift/deployment.yaml')
               openshift.raw('replace', '-f', 'docker/openshift/deployment.yaml')
             }
           }
+          openshift.verbose(false)
         }
 
         echo 'Provisioning database...'
