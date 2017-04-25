@@ -51,7 +51,11 @@ pipeline {
     }
 
     stage('deploy-staging') {
-      agent any
+      agent {
+        // run with the custom python slave
+        // will dynamically provision a new pod on APPUiO
+        label 'python'
+      }
 
       steps {
         echo 'Running S2I build...'
@@ -92,7 +96,11 @@ pipeline {
     }
 
     stage('deploy-preprod') {
-      agent any
+      agent {
+        // run with the custom python slave
+        // will dynamically provision a new pod on APPUiO
+        label 'python'
+      }
 
       steps {
         echo 'Promoting to preprod...'
@@ -135,7 +143,11 @@ pipeline {
     }
 
     stage('deploy-prod') {
-      agent any
+      agent {
+        // run with the custom python slave
+        // will dynamically provision a new pod on APPUiO
+        label 'python'
+      }
 
       steps {
         echo 'Promoting to prod...'
@@ -159,6 +171,7 @@ pipeline {
               openshift.raw('replace', '-f', 'docker/openshift/deployment.yaml')
               openshift.raw('replace', '-f', 'docker/openshift/service.yaml')
             }
+
           }
 
           // openshift.verbose(false)
