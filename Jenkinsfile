@@ -17,9 +17,12 @@ pipeline {
       }
 
       steps {
-        openshift.withCluster() {
-          openshift.raw('describe', 'dc/api-staging')
+        script {
+          openshift.withCluster() {
+            openshift.raw('describe', 'dc/api-staging')
+          }
         }
+        
 
         echo 'Provisioning database...'
 
