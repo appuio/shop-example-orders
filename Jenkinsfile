@@ -64,14 +64,15 @@ pipeline {
         // replace the openshift config
         sh 'sed -i "s;CLUSTER_IP;172.30.57.24;g" docker/openshift/service.yaml'
 
-        //script {
+        script {
           openshift.withCluster() {
             openshift.verbose()
-            openshift.replace('docker/openshift/*')
+            // openshift.replace('docker/openshift/*')
+            openshift.describe('dc', 'api-staging')
             openshift.raw('replace', '-f', 'docker/openshift/*')
             openshift.verbose(false)
           }
-        //}
+        }
 
         echo 'Starting new deployment...'
 
