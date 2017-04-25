@@ -20,12 +20,12 @@ pipeline {
         script {
           openshift.withCluster() {
             openshift.doAs('jenkins-oc-client') {
-              openshift.raw('describe', 'dc/api-staging')
+              openshift.replace('docker/openshift/deployment.yaml')
               openshift.raw('replace', '-f', 'docker/openshift/deployment.yaml')
             }
           }
         }
-        
+
         echo 'Provisioning database...'
 
         // scale the ephemeral orders-test database to 1 replica
