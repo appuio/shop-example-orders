@@ -29,8 +29,9 @@ pipeline {
 
         // install the application requirements
         // wrap([$class: 'CacheWrapper', 'path': '.pip']) {
-        sh 'pip3.6 install --user -r requirements.txt --download-cache=.pip'
+        // sh 'pip3.6 install --user -r requirements.txt --download-cache=.pip'
         // }
+        sh 'pip3.6 install --user -r requirements.txt'
 
         echo 'Running tests...'
 
@@ -60,7 +61,7 @@ pipeline {
 
         echo 'Replacing OC config...'
 
-        // TODO: replace the openshift config
+        // replace the openshift config
         script {
           openshift.replace('do something')
         }
