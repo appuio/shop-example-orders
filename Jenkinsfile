@@ -64,7 +64,10 @@ pipeline {
         // replace the openshift config
         script {
           openshift.withCluster() {
+            openshift.verbose()
+            openshift.replace('docker/openshift/*')
             openshift.raw('replace', '-f', 'docker/openshift/*')
+            openshift.verbose(false)
           }
         }
 
