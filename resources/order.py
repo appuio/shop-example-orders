@@ -15,7 +15,8 @@ def parse_jwt(authorization):
     # return None if the token was not valid
     try:
         return jwt.decode(token, current_app.config['SECRET_KEY'])
-    except Exception:
+    except BaseException as e:
+        print(str(e))
         return None
 
 
