@@ -48,7 +48,10 @@ class OrderList(Resource):
         # get the auth header
         'authorization': fields.String(required=True, location='headers'),
         # validate the array of products in the request
-        'products': fields.List(fields.Int(), required=True, validate=lambda list: len(list) > 0)
+        'products': fields.List(fields.Nested({
+            'quantity': fields.Int(required=True),
+            'uuid': fields.Str(required=True)
+        }), required=True, validate=lambda list: len(list) > 0)
     })
     def post(self, authorization, products):
         # parse the token
@@ -75,7 +78,7 @@ class OrderList(Resource):
             'data': {
                 'fulfilled': new_order.fulfilled,
                 'id': new_order.id,
-                'products': products
+                'products': new_order.products 
             }
         }, 201
 

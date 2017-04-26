@@ -10,7 +10,7 @@ class OrderModel(db.Model):
     # define the structure of the database table
     id = db.Column(db.Integer, primary_key=True)
     user_uuid = db.Column(postgresql.UUID)
-    products = db.Column(postgresql.ARRAY(db.Integer, dimensions=1))
+    products = db.Column(postgresql.JSON)
     order_date = db.Column(db.DateTime)
     fulfilled = db.Column(db.Boolean)
 
