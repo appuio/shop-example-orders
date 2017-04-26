@@ -19,6 +19,10 @@ def parse_jwt(authorization):
         print(str(e))
         return None
 
+def extract_uuid(token):
+    # extract the uuid from the sub claim
+    return token['sub'][5:]
+
 
 class OrderList(Resource):
     @use_kwargs({
@@ -37,7 +41,7 @@ class OrderList(Resource):
         # return the list of all items
         return {
             'success': True,
-            'data': [order.to_json() for order in OrderModel.find_by_uuid(token['uuid'])]
+            'data': [order.to_json() for order in OrderModel.find_by_uuid(extract_uuid(token))]
         }
 
     @use_kwargs({
@@ -57,7 +61,7 @@ class OrderList(Resource):
 
         # construct a new order
         new_order = OrderModel(
-            token['uuid'],
+            extract_uuid(token),
             products,
             '2017-10-10 20:00:00',
             False
@@ -93,7 +97,7 @@ class Order(Resource):
         # get the order from the database
         item = OrderModel.find_by_id(id_)
 
-        if item and item.user_uuid == token['uuid']:
+        if item and item.user_uuid == extract_uuid(token):
             return {
                 'success': True,
                 'data': item.to_json()
