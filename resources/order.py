@@ -14,7 +14,7 @@ def parse_jwt(authorization):
     # decode the JWT with the shared secret
     # return None if the token was not valid
     try:
-        return jwt.decode(token, current_app.config['SECRET_KEY'])
+        return jwt.decode(token, current_app.config['SECRET_KEY'], audience='shop-example')
     except BaseException as e:
         print(str(e))
         return None
