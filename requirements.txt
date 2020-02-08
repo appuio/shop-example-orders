@@ -4,4 +4,4 @@ Flask-SQLAlchemy==2.2
 gunicorn==19.7.1
 psycopg2==2.7.1
 PyJWT==1.4.2
-webargs==1.6.0
+webargs==5.5.3
