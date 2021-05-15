@@ -12,7 +12,7 @@ services:
       - "8080:8080"
 
   orders-db:
-    image: postgres:9.5-alpine
+    image: postgres:13.3-alpine
     environment:
       POSTGRES_USER: orders
       POSTGRES_PASSWORD: secret
