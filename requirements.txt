@@ -2,6 +2,6 @@ Flask==0.12.4
 Flask-RESTful==0.3.7
 Flask-SQLAlchemy==2.2
 gunicorn==19.7.1
-psycopg2==2.7.1
+psycopg2==2.9.9
 PyJWT==1.4.2
 webargs==1.6.0
